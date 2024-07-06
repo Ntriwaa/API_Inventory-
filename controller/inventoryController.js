@@ -11,6 +11,19 @@ const addInventory = (req, res) => {
     return res.status(201).json({ id: results.insertId, product_name, product_number, product_type, product_cost});
   });
 }
+// Add a new inventory item again
+ addInventory = (req, res) => {
+  const { product_name, product_number, product_type, product_cost } = req.body;
+  const query = 'INSERT INTO inventory (product_name, product_number, product_type, product_cost) VALUES ($1, $2, $3, $4)';
+  pool.query(query, [product_name, product_number, product_type, product_cost], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    return res.status(201).json({ id: results.insertId, product_name, product_number, product_type, product_cost});
+  });
+}
+
+
 //Get a single inventory
 const getInventory = (req, res) => {
   const { id } = req.params;
